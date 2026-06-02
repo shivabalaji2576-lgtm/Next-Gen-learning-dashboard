@@ -1,10 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Activity } from "lucide-react";
 import { generateActivityData } from "@/lib/utils";
-
-const activityData = generateActivityData();
 
 function getColor(count: number): string {
   if (count === 0) return "rgba(30,45,61,0.5)";
@@ -24,6 +23,12 @@ function chunkIntoWeeks(days: { date: string; count: number }[]) {
 }
 
 export default function ActivityTile() {
+  const [activityData, setActivityData] = useState<{ date: string; count: number }[]>([]);
+
+  useEffect(() => {
+    setActivityData(generateActivityData());
+  }, []);
+
   const weeks = chunkIntoWeeks(activityData);
   const totalSessions = activityData.filter((d) => d.count > 0).length;
 
